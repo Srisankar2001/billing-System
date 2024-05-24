@@ -1,9 +1,23 @@
 const db = require('../Database/DB');
 const bcrypt = require('bcrypt');
-
+const multer = require('multer');
+const path = require('path');
 require('dotenv').config()
 
 const {billGenerate,billItemSave,validateItems} = require('../Function/billFunction')
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/images');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({
+    storage: storage
+}).single('image');
 
 const register = (req, res) => {
     const { name, email, password, role } = req.body;
@@ -78,13 +92,80 @@ const changePassword = (req, res) => {
     });
 };
 
+const getUser = (req, res) => {
+    const sqlGet = "SELECT * FROM user WHERE role != 'ADMIN'"
+    db.query(sqlGet, (err, result) => {
+        if (err) {
+            return res.status(500).json({ status: false, message: err });
+        } else {
+            return res.status(200).json({ status: true, data: result });
+        }
+    })
+}
+
+const getAdminCount = (req,res) => {
+    const sqlGet = "SELECT COUNT(*) AS count FROM user WHERE role = 'ADMIN'"
+    db.query(sqlGet, (err, result) => {
+        if (err) {
+            return res.status(500).json({ status: false, message: err });
+        } else {
+            return res.status(200).json({ status: true, data: result[0] });
+        }
+    })
+}
+const getCashierCount = (req,res) => {
+    const sqlGet = "SELECT COUNT(*) AS count FROM user WHERE role = 'CASHIER'"
+    db.query(sqlGet, (err, result) => {
+        if (err) {
+            return res.status(500).json({ status: false, message: err });
+        } else {
+            return res.status(200).json({ status: true, data: result[0] });
+        }
+    })
+}
+
+const getInventoryCount = (req,res) => {
+    const sqlGet = "SELECT COUNT(*) AS count FROM user WHERE role = 'INVENTORY'"
+    db.query(sqlGet, (err, result) => {
+        if (err) {
+            return res.status(500).json({ status: false, message: err });
+        } else {
+            return res.status(200).json({ status: true, data: result[0] });
+        }
+    })
+}
+
+const getProductCount = (req,res) => {
+    const sqlGet = "SELECT COUNT(*) AS count FROM product"
+    db.query(sqlGet, (err, result) => {
+        if (err) {
+            return res.status(500).json({ status: false, message: err });
+        } else {
+            return res.status(200).json({ status: true, data: result[0] });
+        }
+    })
+}
+
+const getBillCount = (req,res) => {
+    const sqlGet = "SELECT COUNT(*) AS count FROM bill"
+    db.query(sqlGet, (err, result) => {
+        if (err) {
+            return res.status(500).json({ status: false, message: err });
+        } else {
+            return res.status(200).json({ status: true, data: result[0] });
+        }
+    })
+}
+
+
+
 const getProduct = (req, res) => {
     const sqlGet = "SELECT * FROM product"
     db.query(sqlGet, (err, result) => {
         if (err) {
             return res.status(500).json({ status: false, message: err });
         } else {
-            return res.status(400).json({ status: false, data: result });
+            return res.status(200).json({ status: false, data: result });
         }
     })
 }
@@ -95,7 +176,7 @@ const getExpiryProduct = (req,res)=>{
         if (err) {
             return res.status(500).json({ status: false, message: err });
         } else {
-            return res.status(400).json({ status: false, data: result });
+            return res.status(200).json({ status: false, data: result });
         }
     })
 }
@@ -106,12 +187,21 @@ const getStockFinish = (req,res) => {
         if (err) {
             return res.status(500).json({ status: false, message: err });
         } else {
-            return res.status(400).json({ status: false, data: result });
+            return res.status(200).json({ status: false, data: result });
         }
     })
 }
 
 const addProduct = (req, res) => {
+    console.log(req.body)
+    console.log(req.file)
+    upload(req, res, function (err) {
+        if (err instanceof multer.MulterError) {
+            return res.status(500).json({ status: false, message: "Error uploading file" });
+        } else if (err) {
+            return res.status(500).json({ status: false, message: err.message });
+        }
+    })
     const { name, category, quantity , stock , description, self, manufactredDate, expiryDate, buyingPrice, sellingPrice, company, userId } = req.body
     const { image } = req.file
 
@@ -265,6 +355,12 @@ const viewBill = (req,res) => {
 
 const adminController = {
     register,
+    getUser,
+    getAdminCount,
+    getCashierCount,
+    getInventoryCount,
+    getProductCount,
+    getBillCount,
     changePassword,
     getProduct,
     getExpiryProduct,

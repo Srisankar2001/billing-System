@@ -21,7 +21,7 @@ const signin = (req, res) => {
             return res.status(400).json({ status: false, message: "Email not registered" });
         } else {
             const hashPassword = result[0].password
-            bcrypt.compare(password, hashPassword, 10, (err, match) => {
+            bcrypt.compare(password, hashPassword,(err, match) => {
                 if (err) {
                     return res.status(500).json({ status: false, message: "Error in password hashing" });
                 } else if (!match) {
