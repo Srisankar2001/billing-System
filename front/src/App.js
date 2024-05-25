@@ -5,6 +5,7 @@ import Login from './Components/login';
 import Dashboard from './Components/dashboard';
 import AddUser from './Components/adduser';
 import AddProduct from './Components/addproduct';
+import ViewProduct from './Components/viewproduct';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/' element={<Dashboard/>}/>
         <Route path='/adduser' element={<AddUser/>}/>
         <Route path='/addproduct' element={<AddProduct/>}/>
+        <Route path='/viewproduct' element={<ViewProduct/>}/>
       </Routes>
     </Router>
    </div>

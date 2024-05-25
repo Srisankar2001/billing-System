@@ -59,13 +59,49 @@ const verify = (req,res) => {
     });
 }
 
+const changePassword = (req, res) => {
+    const { userId, password } = req.body;
+
+    if (!userId || !password) {
+        return res.status(400).json({ status: false, message: "Input Id and Password" });
+    }
+
+    const sqlCheck = "SELECT * FROM user WHERE id = ?";
+    db.query(sqlCheck, [userId], (err, result) => {
+        if (err) {
+            return res.status(500).json({ status: false, message: err });
+        } else if (result.length == 0) {
+            return res.status(400).json({ status: false, message: "Input a valid user id" });
+        }
+
+        bcrypt.hash(password, 10, (err, hashPassword) => {
+            if (err) {
+                return res.status(500).json({ status: false, message: "Error in password hashing" });
+            }
+
+            const sqlUpdate = "UPDATE user SET password = ? WHERE id = ?";
+            db.query(sqlUpdate, [hashPassword, userId], (err, result) => {
+                if (err) {
+                    return res.status(500).json({ status: false, message: err });
+                } else if (result.affectedRows > 0) {
+                    return res.status(200).json({ status: true, message: "Password changed Successfully" });
+                } else {
+                    return res.status(500).json({ status: false, message: "Database Update Error" });
+                }
+            });
+        });
+    });
+};
+
 const logout = (req,res) => {
     res.clearCookie('token')
     return res.status(200).json({ status: true, message : "Logout Successful" });
 }
+
 const authController = {
     signin,
     verify,
+    changePassword,
     logout
 }
 

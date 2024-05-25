@@ -94,7 +94,7 @@ function Dashboard() {
         }
         const fetchProduct = async () => {
             try {
-                const response = await Axios.get("http://localhost:3001/admin/product_count")
+                const response = await Axios.get("http://localhost:3001/product/count")
                 if (response.data.status) {
                     setData(prev => ({
                         ...prev,
@@ -107,7 +107,7 @@ function Dashboard() {
         }
         const fetchBill = async () => {
             try {
-                const response = await Axios.get("http://localhost:3001/admin/bill_count")
+                const response = await Axios.get("http://localhost:3001/bill/count")
                 if (response.data.status) {
                     setData(prev => ({
                         ...prev,

@@ -5,8 +5,8 @@ const cookieParser = require('cookie-parser')
 
 const authRouter = require("./router/authRouter")
 const adminRouter = require("./router/adminRouter")
-const cashierRouter = require("./router/cashierRouter")
-const inventoryRouter = require("./router/inventoryRouter")
+const productRouter = require("./router/productRouter")
+const billRouter = require("./router/billRouter")
 
 const app = express()
 
@@ -20,8 +20,8 @@ app.use(express.static('public'))
 
 app.use('/auth',authRouter)
 app.use('/admin',adminRouter);
-app.use('/cashier',cashierRouter);
-app.use('/inventory',inventoryRouter);
+app.use('/product',productRouter);
+app.use('/bill',billRouter);
 
 db.connect((err)=>{
     if(err){

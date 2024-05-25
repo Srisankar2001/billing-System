@@ -37,7 +37,8 @@ function AddProduct() {
         expiryDate: "",
         buyingPrice: "",
         sellingPrice: "",
-        company: ""
+        company: "",
+        image:""
     })
     useEffect(() => {
         const sendData = async () => {
@@ -119,6 +120,7 @@ function AddProduct() {
                         },
                       };
                     const postData = {
+                        userId : state.id,
                         name: input.name.trim(),
                         category: input.category,
                         quantity: input.quantity.trim(),
@@ -132,14 +134,15 @@ function AddProduct() {
                         company: input.company.trim(),
                         image: input.image
                     }
-                    const response = await Axios.post("http://localhost:3001/admin/product", postData,config)
+                    const response = await Axios.post("http://localhost:3001/product/add", postData,config)
                     if (response.data.status) {
                         alert(response.data.message)
+                        handleReset()
                     } else {
                         alert(response.data.message)
                     }
                 } catch (error) {
-                    console.log(error)
+                    alert(error.response.data.message)
                 }
             }
             sendData()
@@ -151,7 +154,7 @@ function AddProduct() {
             <Navbar />
             <div className="addProduct_container">
                 <form className="addProduct_form" onSubmit={(e) => handleSubmit(e)} onReset={handleReset}>
-                    <div className="addProduct_heading_div"><span className="addProduct_heading">Add User</span></div>
+                    <div className="addProduct_heading_div"><span className="addProduct_heading">Add Product</span></div>
                     <div className="addProduct_form_input">
                         <label htmlFor="name" className="addProduct_form_label">Name</label>
                         <input type="text" className="addProduct_form_field" name="name" value={input.name} placeholder="Enter name here" onChange={(e) => handleChange(e)} />
@@ -182,7 +185,7 @@ function AddProduct() {
                         <div className="addProduct_form_input">
                             <label htmlFor="self" className="addProduct_form_label">Self no</label>
                             <input type="number" className="addProduct_form_field" name="self" value={input.self} placeholder="Enter self number" onChange={(e) => handleChange(e)} />
-                            {error.stock && <span className="addProduct_form_error">{error.stock}</span>}
+                            {error.self && <span className="addProduct_form_error">{error.self}</span>}
                         </div>
                     </div>
                     <div className="addProduct_form_row">
