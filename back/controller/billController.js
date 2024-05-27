@@ -2,7 +2,7 @@ const db = require('../Database/DB');
 
 require('dotenv').config()
 
-const { billGenerate, billItemSave, validateItems } = require('../Function/billFunction')
+const { billItemSave, validateItems , productItemSave } = require('../Function/billFunction')
 
 
 const getBillCount = (req, res) => {
@@ -36,20 +36,28 @@ const addBill = (req, res) => {
     }
 
 
-    const billId = billGenerate(userId, subTotal, discount, grandTotal, paid, balance, method)
-    if (!billId) {
-        return res.status(500).json({ status: false, message: "Bill Generate Fail" });
-    }
-
-    items.map(item => {
-        const status = billItemSave(billId, item.productId, item.price, item.quantity, item.totalPrice)
-        if (!status) {
-            return res.status(500).json({ status: false, message: "Bill Item insert error" });
+    const sqlBill = "INSERT INTO bill(user_id,sub_total,discount,grant_total,paid,balance,method,date) VALUES(?,?,?,?,?,?,?,NOW())"
+    db.query(sqlBill, [userId, subTotal, discount, grandTotal, paid, balance, method], (err, result) => {
+        if (err) {
+            return res.status(500).json({ status: false, message: err })
+        } else{
+            if(!result.insertId){
+                return res.status(500).json({ status: false, message: "Bill Generate Fail" })
+            }else{
+                const billId = result.insertId
+                items.map(item => {
+                    const status = billItemSave(billId, item.productId, item.productName ,item.productQuantity, item.expiryDate, item.price, item.unit, item.totalPrice)
+                    const statusProduct = productItemSave(item.id,item.unit)
+                    if (!status) {
+                        return res.status(500).json({ status: false, message: "Bill Item insert error" });
+                    }else if(!statusProduct){
+                        return res.status(500).json({ status: false, message: "Bill Item insert error" });
+                    }
+                })
+                return res.status(200).json({ status: true, message: "Bill Generated Successfully" });
+            }
         }
     })
-
-    return res.status(200).json({ status: true, message: "Bill Generated Successfully" });
-
 }
 
 const viewBill = (req, res) => {
@@ -66,12 +74,12 @@ const viewBill = (req, res) => {
         } else if (result.length == 0) {
             return res.status(400).json({ status: false, message: "Invalid bill id" });
         } else {
-            const sqlBillView = "SELECT p.name , p.quantity as product_quantity , b.quantity , b.price , b.total_price FROM bill_detail b JOIN product p ON b.product_id = p.id WHERE b.bill_id = ?"
-            db.query(sqlBillView, [billId], (err, result) => {
+            const sqlBillView = "SELECT * from bill_detail WHERE bill_id = ?"
+            db.query(sqlBillView, [billId], (err, resultBill) => {
                 if (err) {
                     return res.status(400).json({ status: false, message: err });
-                } else if (result.length > 0) {
-                    return res.status(200).json({ status: true, data: result });
+                } else if (resultBill.length > 0) {
+                    return res.status(200).json({ status: true, data: {bill : result[0], billDetail : resultBill }});
                 } else {
                     return res.status(500).json({ status: false, message: "Database fetch error" });
                 }

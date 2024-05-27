@@ -15,6 +15,10 @@ router.post("/add",upload.single('image'),productController.addProduct);
 
 router.post("/get",productController.getProduct);
 
+router.post("/block",productController.block);
+
+router.post("/unblock",productController.unblock);
+
 router.put("/update",productController.updateProduct);
 
 router.delete("/delete",productController.deleteProduct);

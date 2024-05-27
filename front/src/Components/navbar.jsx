@@ -51,6 +51,9 @@ function Navbar() {
                 <li className="navbar_list_item">
                     <a href="/viewproduct" className="navbar_list_item_link">View Product</a>
                 </li>
+                {(isAdmin || isCashier) && <li className="navbar_list_item">
+                    <a href="/addbill" className="navbar_list_item_link">Add Bill</a>
+                </li>}
             </ul>
         </nav>
     )

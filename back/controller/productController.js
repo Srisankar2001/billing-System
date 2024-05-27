@@ -28,12 +28,76 @@ const getAllProduct = (req, res) => {
 
 const getProduct = (req, res) => {
     const { id } = req.body
-    const sqlGet = "SELECT * FROM product WHERE id = ?"
-    db.query(sqlGet,[id], (err, result) => {
+    const sqlExist = "SELECT * FROM product WHERE id = ?"
+    db.query(sqlExist, [id], (err, result) => {
         if (err) {
             return res.status(500).json({ status: false, message: err });
+        } else if (result.length == 0) {
+            return res.status(200).json({ status: false, message: "Product does not exists" });
         } else {
-            return res.status(200).json({ status: true, data: result[0] });
+            const sqlGet = "SELECT * FROM product WHERE id = ?"
+            db.query(sqlGet, [id], (err, result) => {
+                if (err) {
+                    return res.status(500).json({ status: false, message: err });
+                } else {
+                    return res.status(200).json({ status: true, data: result[0] });
+                }
+            })
+        }
+    })
+}
+
+const block = (req, res) => {
+    const { id } = req.body
+    const sqlExist = "SELECT * FROM product WHERE id = ?"
+    db.query(sqlExist, [id], (err, result) => {
+        if (err) {
+            return res.status(500).json({ status: false, message: err });
+        } else if (result.length == 0) {
+            return res.status(400).json({ status: false, message: "Product does not exists" });
+        } else {
+            if (!result[0].active) {
+                return res.status(200).json({ status: false, message: "Product already blocked" });
+            } else {
+                const sqlUpdate = "UPDATE product SET active = false WHERE id = ?"
+                db.query(sqlUpdate, [id], (err, result) => {
+                    if (err) {
+                        return res.status(500).json({ status: false, message: err });
+                    } else if (result) {
+                        return res.status(200).json({ status: true, message: "Product blocked successfully" });
+                    } else {
+                        return res.status(200).json({ status: false, message: "Product block failed" });
+                    }
+                })
+            }
+        }
+    })
+}
+
+
+const unblock = (req, res) => {
+    const { id } = req.body
+    const sqlExist = "SELECT * FROM product WHERE id = ?"
+    db.query(sqlExist, [id], (err, result) => {
+        if (err) {
+            return res.status(500).json({ status: false, message: err });
+        } else if (result.length == 0) {
+            return res.status(400).json({ status: false, message: "Product does not exists" });
+        } else {
+            if (result[0].active) {
+                return res.status(200).json({ status: false, message: "Product already unblocked" });
+            } else {
+                const sqlUpdate = "UPDATE product SET active = true WHERE id = ?"
+                db.query(sqlUpdate, [id], (err, result) => {
+                    if (err) {
+                        return res.status(500).json({ status: false, message: err });
+                    } else if (result) {
+                        return res.status(200).json({ status: true, message: "Product unblocked successfully" });
+                    } else {
+                        return res.status(200).json({ status: false, message: "Product unblock failed" });
+                    }
+                })
+            }
         }
     })
 }
@@ -72,7 +136,7 @@ const addProduct = (req, res) => {
         if (err) {
             return res.status(500).json({ status: false, message: err });
         } else if (resultUnique.length > 0) {
-            return res.status(400).json({ status: false, message: "Product already exists"});
+            return res.status(400).json({ status: false, message: "Product already exists" });
         } else {
             const sqlAdd = "INSERT INTO product(name,category,stock,quantity,description,self,manufactured_date,expiry_date,buying_price,selling_price,company,image,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())"
             db.query(sqlAdd, [name, category, stock, quantity, description, self, manufacturedDate, expiryDate, buyingPrice, sellingPrice, company, image, userId], (err, result) => {
@@ -96,22 +160,22 @@ const updateProduct = (req, res) => {
     }
 
     const sqlExist = "SELECT * FROM product WHERE id = ?"
-    db.query(sqlUnique, [id], (err, result) => {
+    db.query(sqlExist, [id], (err, result) => {
         if (err) {
             return res.status(500).json({ status: false, message: err });
         } else if (result.length == 0) {
             return res.status(400).json({ status: false, message: "Product does not exists" });
-        }
-    })
-
-    const sqlUpdate = "UPDATE product SET name = ? , category = ? , stock = ? , quantity = ? , description = ? , self = ? , manufactured_date = ? , expiry_date = ? , buying_price = ? , selling_price = ? , company = ? , updated_by = ? , updated_at = NOW() WHERE id = ?"
-    db.query(sqlUpdate, [name, category, stock, quantity, description, self, manufacturedDate, expiryDate, buyingPrice, sellingPrice, company, userId, id], (err, result) => {
-        if (err) {
-            return res.status(500).json({ status: false, message: err });
-        } else if (result.affectedRows > 0) {
-            return res.status(200).json({ status: true, message: "Product Updated Successfully" });
         } else {
-            return res.status(200).json({ status: false, message: "Product Update Fail" });
+            const sqlUpdate = "UPDATE product SET name = ? , category = ? , stock = ? , quantity = ? , description = ? , self = ? , manufactured_date = ? , expiry_date = ? , buying_price = ? , selling_price = ? , company = ? , updated_by = ? , updated_at = NOW() WHERE id = ?"
+            db.query(sqlUpdate, [name, category, stock, quantity, description, self, manufacturedDate, expiryDate, buyingPrice, sellingPrice, company, userId, id], (err, result) => {
+                if (err) {
+                    return res.status(500).json({ status: false, message: err });
+                } else if (result.affectedRows > 0) {
+                    return res.status(200).json({ status: true, message: "Product Updated Successfully" });
+                } else {
+                    return res.status(200).json({ status: false, message: "Product Update Fail" });
+                }
+            })
         }
     })
 }
@@ -146,6 +210,8 @@ const deleteProduct = (req, res) => {
 
 
 const productController = {
+    block,
+    unblock,
     getProductCount,
     getAllProduct,
     getProduct,

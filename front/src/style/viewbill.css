@@ -1,0 +1,41 @@
+.viewBill_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9;
+    min-height: 100%;
+    padding: 20px;
+}
+
+.viewBill_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-left: 250px;
+    margin-right: 20px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 80%;
+    max-width: 1200px;
+}
+
+.viewBill_heading_div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    width : 100%;
+}
+
+.viewBill_heading {
+    font-size: 26px;
+    color: #27ae60;
+    font-weight: bold;
+    text-align: center;
+}
+

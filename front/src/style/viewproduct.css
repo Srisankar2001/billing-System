@@ -27,15 +27,26 @@
 .viewProduct_heading_div {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 25px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    width : 100%;
 }
 
 .viewProduct_heading {
     font-size: 26px;
     color: #27ae60;
     font-weight: bold;
+    text-align: center;
+    flex-grow: 1;
 }
+
+.viewProduct_heading_search {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+} 
 
 .viewProduct_item_div {
     display: flex;
@@ -82,12 +93,15 @@
     color: #999;
     text-align: center;
     margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
 }
 
 .viewProduct_table th, .viewProduct_table td {
     padding: 10px;
     text-align: center;
-    border-bottom: 1px solid #dddddd;
 }
 
 .viewProduct_table th {
@@ -96,20 +110,27 @@
     font-weight: bold;
 }
 
-
-.viewProduct_btn {
-    margin-top: 25px;
-    text-align: center;
+.viewProduct_item_data_marked{
+    color: #dc1e1e;
 }
 
-.viewProduct_btn input {
-    padding: 12px 25px;
-    margin: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.viewProduct_item_btn {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Adds space between buttons */
+    align-items: center; /* Centers buttons horizontally */
+    margin-top: 15px; /* Adds space above the button group */
+}
+
+.viewProduct_item_btn_update,
+.viewProduct_item_btn_block,
+.viewProduct_item_btn_unblock,
+.viewProduct_item_btn_delete {
+    padding: 10px 20px; /* Adds padding inside buttons */
+    font-size: 16px; /* Standardizes font size */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+    border-radius: 5px; /* Rounds button corners */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Adds transition effects */
 }
 
 .viewProduct_item_btn_update {
@@ -120,6 +141,20 @@
 
 .viewProduct_item_btn_update:hover {
     background-color: #27ae60;
+    transform: scale(1.05); /* Slightly enlarges button on hover */
+}
+
+.viewProduct_item_btn_block,
+.viewProduct_item_btn_unblock {
+    background-color: #eaa121;
+    color: white;
+    border: 0;
+}
+
+.viewProduct_item_btn_block:hover,
+.viewProduct_item_btn_unblock:hover {
+    background-color: #d68513;
+    transform: scale(1.05); /* Slightly enlarges button on hover */
 }
 
 .viewProduct_item_btn_delete {
@@ -130,4 +165,5 @@
 
 .viewProduct_item_btn_delete:hover {
     background-color: #c0392b;
+    transform: scale(1.05); /* Slightly enlarges button on hover */
 }

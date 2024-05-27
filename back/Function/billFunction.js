@@ -1,38 +1,55 @@
 const db = require('../Database/DB')
 
-const billGenerate = (userId,subTotal,discount,grandTotal,paid,balance,method) => {
-    const sqlBill = "INSERT INTO bill(user_id,sub_total,discount,grant_total,paid,balance,method,date) VALUES(?,?,?,?,?,?,?,NOW())"
-    db.query(sqlBill,[userId,subTotal,discount,grandTotal,paid,balance,method],(err,result)=>{
-        if(err){
+
+const billItemSave = async (billId, productId, productName, productQuantity, expiryDate, unit, price, totalPrice) => {
+    const sqlBillItem = "INSERT INTO bill_detail(bill_id,product_id,product_name,product_quantity,expiry_date,price,unit,total_price) VALUES(?,?,?,?,?,?,?,?)"
+    db.query(sqlBillItem, [billId, productId, productName, productQuantity, expiryDate, price, unit, totalPrice], (err, result) => {
+        if (err) {
+            console.log(err)
             return false
-        }else if(result.insertId){
-            return result.insertId
-        }else{
+        } else if (result.affectedRows > 0) {
+            return true
+        } else {
+            console.log("Error 1")
             return false
         }
     })
 }
 
-const billItemSave = (billId,productId,price,quanity,total_price) => {
-    const sqlBillItem = "INSERT INTO bill_detail(bill_id,product_id,price,quantity,total_price) VALUES(?,?,?,?,?)"
-    db.query(sqlBillItem,[billId,productId,price,quanity,total_price],(err,result)=>{
-        if(err){
+const productItemSave = async (productId, unit) => {
+    const sqlProductFetch = "SELECT stock , sold FROM product WHERE id = ?"
+    db.query(sqlProductFetch, [productId], (err, result) => {
+        if (err) {
+            console.log(err)
             return false
-        }else if(result.affectedRows > 0){
-            return true
-        }else{
+        } else if (result.length === 0) {
             return false
+        } else {
+            const stock = Number(result[0].stock) - Number(unit)
+            const sold = Number(result[0].sold) + Number(unit)
+            const sqlProductChange = "UPDATE product SET stock = ? , sold = ? WHERE id = ?"
+            db.query(sqlProductChange, [stock, sold, productId], (err, result) => {
+                if (err) {
+                    console.log(err)
+                    return false
+                } else if (result.affectedRows > 0) {
+                    return true
+                } else {
+                    console.log("Error 1")
+                    return false
+                }
+            })
         }
     })
 }
 
 
 const validateItems = (items) => {
-    const itemIds = items.map(item => item.productId); 
+    const itemIds = items.map(item => item.productId);
     const uniqueItemIds = new Set(itemIds);
 
     return uniqueItemIds.size === itemIds.length;
 };
 
 
-module.exports = {billGenerate,billItemSave,validateItems}
+module.exports = { billItemSave, productItemSave, validateItems }
