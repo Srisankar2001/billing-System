@@ -18,14 +18,14 @@ const signin = (req, res) => {
         if (err) {
             return res.status(500).json({ status: false, message: err });
         } else if (result.length == 0) {
-            return res.status(400).json({ status: false, message: "Email not registered" });
+            return res.status(200).json({ status: false, message: "Email not registered" });
         } else {
             const hashPassword = result[0].password
             bcrypt.compare(password, hashPassword,(err, match) => {
                 if (err) {
                     return res.status(500).json({ status: false, message: "Error in password hashing" });
                 } else if (!match) {
-                    return res.status(400).json({ status: false, message: "Password is wrong" });
+                    return res.status(200).json({ status: false, message: "Password is wrong" });
                 } else {
                     const user = {
                         id: result[0].id,
@@ -76,7 +76,7 @@ const changePassword = (req, res) => {
 
         bcrypt.hash(password, 10, (err, hashPassword) => {
             if (err) {
-                return res.status(500).json({ status: false, message: "Error in password hashing" });
+                return res.status(400).json({ status: false, message: "Error in password hashing" });
             }
 
             const sqlUpdate = "UPDATE user SET password = ? WHERE id = ?";

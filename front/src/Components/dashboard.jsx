@@ -43,7 +43,7 @@ function Dashboard() {
             }
         }
         sendData()
-    }, [])
+    }, [navigate])
 
     useEffect(() => {
         if (state.id !== "") {
@@ -140,7 +140,7 @@ function Dashboard() {
                     <span className="dashboard_data_data">Role : {state.role}</span>
                     {isAdmin && <span className="dashboard_data_data">Total Admin : {data.admin}</span>}
                     {isAdmin && <span className="dashboard_data_data">Total Cashier : {data.cashier}</span>}
-                    {isAdmin && <span className="dashboard_data_data">Total Inventory : {data.inventory}</span>}
+                    {isAdmin && <span className="dashboard_data_data">Total Inventory Manager: {data.inventory}</span>}
                     {(isAdmin || isInventory) && <span className="dashboard_data_data">Total Product : {data.product}</span>}
                     {isAdmin && <span className="dashboard_data_data">Total Order : {data.bill}</span>}
                 </div>

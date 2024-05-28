@@ -95,7 +95,7 @@ function ExpiredProduct() {
                     {isAuth &&
                         <td className="viewExpired_item_data">
                             <div className="viewExpired_item_btn">
-                                <input type="button" value="Update" onClick={() => handleUpdate(item.id)} className="viewExpired_item_btn_update" />
+                                <input type="button" value="Edit" onClick={() => handleUpdate(item.id)} className="viewExpired_item_btn_update" />
                                 {item.active ?
                                     <input type="button" value="Block" onClick={() => handleBlock(item.id)} className="viewExpired_item_btn_block" />
                                     :

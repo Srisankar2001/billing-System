@@ -14,7 +14,7 @@ function PrintBill({ bill, data }) {
     function renderData() {
         return data.map(item => (
             <tr className="bill_table_data_row">
-                <td className="bill_table_data">{item.productName}</td>
+                <td className="bill_table_data">{item.productName} [{item.productQuantity}]</td>
                 <td className="bill_table_data">{item.unit}</td>
                 <td className="bill_table_data">{Number(item.price).toFixed(2)}</td>
                 <td className="bill_table_data">{Number(item.totalPrice).toFixed(2)}</td>

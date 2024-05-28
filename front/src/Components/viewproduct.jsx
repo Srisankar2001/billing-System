@@ -95,7 +95,7 @@ function ViewProduct() {
                     {isAuth &&
                         <td className="viewProduct_item_data">
                             <div className="viewProduct_item_btn">
-                                <input type="button" value="Update" onClick={() => handleUpdate(item.id)} className="viewProduct_item_btn_update" />
+                                <input type="button" value="Edit" onClick={() => handleUpdate(item.id)} className="viewProduct_item_btn_update" />
                                 {item.active ?
                                     <input type="button" value="Block" onClick={() => handleBlock(item.id)} className="viewProduct_item_btn_block" />
                                     :

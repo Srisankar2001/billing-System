@@ -60,7 +60,7 @@ function AddProduct() {
             }
         }
         sendData()
-    }, [])
+    }, [navigate])
 
     const handleChange = (e) => {
         if (e.target.name === "image") {
@@ -169,10 +169,20 @@ function AddProduct() {
                         <label htmlFor="category" className="addProduct_form_label">Category</label>
                         <select name="category" value={input.category} className="addProduct_form_select_field" onChange={(e) => handleChange(e)}>
                             <option value="" className="addProduct_form_select_value">Select Category</option>
-                            <option value="Type A" className="addProduct_form_select_value">Type A</option>
-                            <option value="Type B" className="addProduct_form_select_value">Type B</option>
-                            <option value="Type C" className="addProduct_form_select_value">Type C</option>
-                            <option value="Type D" className="addProduct_form_select_value">Type D</option>
+                            <option value="Oil" className="addProduct_form_select_value">Oil</option>
+                            <option value="Herbal Gel" className="addProduct_form_select_value">Herbel Gel</option>
+                            <option value="Paste" className="addProduct_form_select_value">Paste</option>
+                            <option value="Gum Resin" className="addProduct_form_select_value">Gum Resin</option>
+                            <option value="Tablets" className="addProduct_form_select_value">Tablets</option>
+                            <option value="Butter" className="addProduct_form_select_value">Butter</option>
+                            <option value="Special Drink" className="addProduct_form_select_value">Special Drink</option>
+                            <option value="Syrup" className="addProduct_form_select_value">Syrup</option>
+                            <option value="Raw Oil" className="addProduct_form_select_value">Raw Oil</option>
+                            <option value="Cream" className="addProduct_form_select_value">Cream</option>
+                            <option value="Powder" className="addProduct_form_select_value">Powder</option>
+                            <option value="Balm" className="addProduct_form_select_value">Balm</option>
+                            <option value="Soap" className="addProduct_form_select_value">Soap</option>
+                            <option value="Herbal Tea" className="addProduct_form_select_value">Herbal Tea</option>
                         </select>
                         {error.category && <span className="addProduct_form_error">{error.category}</span>}
                     </div>
@@ -183,7 +193,7 @@ function AddProduct() {
                             {error.stock && <span className="addProduct_form_error">{error.stock}</span>}
                         </div>
                         <div className="addProduct_form_input">
-                            <label htmlFor="self" className="addProduct_form_label">Self no</label>
+                            <label htmlFor="self" className="addProduct_form_label">Shelf no</label>
                             <input type="number" className="addProduct_form_field" name="self" value={input.self} placeholder="Enter self number" onChange={(e) => handleChange(e)} />
                             {error.self && <span className="addProduct_form_error">{error.self}</span>}
                         </div>

@@ -20,7 +20,7 @@ const register = (req, res) => {
         if (err) {
             return res.status(500).json({ status: false, message: err });
         } else if (result.length > 0) {
-            return res.status(400).json({ status: false, message: "Email already exists" });
+            return res.status(200).json({ status: false, message: "Email already exists" });
         }
 
         bcrypt.hash(password, 10, (err, hashPassword) => {

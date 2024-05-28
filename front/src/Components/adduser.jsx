@@ -44,7 +44,7 @@ function AddUser() {
             }
         }
         sendData()
-    }, [])
+    }, [navigate])
 
     const handleChange = (e) => {
         setInput(prev => ({

@@ -43,13 +43,6 @@ function validate(state) {
         error.company = ""
     }
 
-    if (description === "") {
-        error.description = "Description field is empty"
-    } else {
-        error.description = ""
-    }
-
-
     if (category === "") {
         error.category = "Select a category"
     } else {
@@ -67,11 +60,11 @@ function validate(state) {
     }
 
     if(self === ""){
-        error.self = "Self  field is empty"
+        error.self = "Shelf  field is empty"
     }else if(isNaN(self)){
-        error.self = "Invalid self number"
+        error.self = "Invalid shelf number"
     }else if(Number(self) < 0){
-        error.self = "Invalid self number"
+        error.self = "Invalid shelf number"
     }else{
         error.self = ""
     }

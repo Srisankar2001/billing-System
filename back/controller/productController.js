@@ -127,7 +127,7 @@ const getStockFinish = (req, res) => {
 const addProduct = (req, res) => {
     const { name, category, quantity, stock, description, self, manufacturedDate, expiryDate, buyingPrice, sellingPrice, company, userId } = req.body
     const image = req.file.filename
-    if (!name || !category || !stock || !quantity || !self || !manufacturedDate || !expiryDate || !buyingPrice || !sellingPrice || !company || !userId || !image) {
+    if (!name || !category || stock == null || !quantity || !self || !manufacturedDate || !expiryDate || !buyingPrice || !sellingPrice || !company || !userId || !image) {
         return res.status(400).json({ status: false, message: "Input all necessary infomation" });
     }
 
@@ -136,16 +136,16 @@ const addProduct = (req, res) => {
         if (err) {
             return res.status(500).json({ status: false, message: err });
         } else if (resultUnique.length > 0) {
-            return res.status(400).json({ status: false, message: "Product already exists" });
+            return res.status(200).json({ status: false, message: "Product already exists" });
         } else {
             const sqlAdd = "INSERT INTO product(name,category,stock,quantity,description,self,manufactured_date,expiry_date,buying_price,selling_price,company,image,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())"
             db.query(sqlAdd, [name, category, stock, quantity, description, self, manufacturedDate, expiryDate, buyingPrice, sellingPrice, company, image, userId], (err, result) => {
                 if (err) {
                     return res.status(500).json({ status: false, message: err });
                 } else if (result.affectedRows > 0) {
-                    return res.status(200).json({ status: true, message: "Product Added Successfully" });
+                    return res.status(200).json({ status: true, message: "Product Inserted Successfully" });
                 } else {
-                    return res.status(200).json({ status: false, message: "Product Add Fail" });
+                    return res.status(200).json({ status: false, message: "Product Insert Fail" });
                 }
             })
         }
@@ -155,7 +155,7 @@ const addProduct = (req, res) => {
 const updateProduct = (req, res) => {
     const { id, name, category, stock, quantity, description, self, manufacturedDate, expiryDate, buyingPrice, sellingPrice, company, userId } = req.body
 
-    if (!id || !name || !category || !stock || !quantity || !self || !manufacturedDate || !expiryDate || !buyingPrice || !sellingPrice || !company || !userId) {
+    if (!id || !name || !category || stock == null  || !quantity || !self || !manufacturedDate || !expiryDate || !buyingPrice || !sellingPrice || !company || !userId) {
         return res.status(400).json({ status: false, message: "Input all necessary data" });
     }
 
