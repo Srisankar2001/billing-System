@@ -42,17 +42,35 @@ function Navbar() {
                 {(isAdmin || isCashier || isInventory) && <li className="navbar_list_item">
                     <a href="/" className="navbar_list_item_link">Dashboard</a>
                 </li>}
+                {(isAdmin || isCashier || isInventory) && <li className="navbar_list_item">
+                    <a href="/change" className="navbar_list_item_link">Change Password</a>
+                </li>}
                 {isAdmin && <li className="navbar_list_item">
                     <a href="/adduser" className="navbar_list_item_link">Add User</a>
+                </li>}
+                {isAdmin && <li className="navbar_list_item">
+                    <a href="/viewuser" className="navbar_list_item_link">View User</a>
                 </li>}
                 {(isAdmin || isInventory) && <li className="navbar_list_item">
                     <a href="/addproduct" className="navbar_list_item_link">Add Product</a>
                 </li>}
-                <li className="navbar_list_item">
+                {(isAdmin || isCashier || isInventory) && <li className="navbar_list_item">
                     <a href="/viewproduct" className="navbar_list_item_link">View Product</a>
-                </li>
+                </li>}
+                {(isAdmin || isCashier || isInventory) && <li className="navbar_list_item">
+                    <a href="/viewexpired" className="navbar_list_item_link">Expired Product</a>
+                </li>}
+                {(isAdmin || isCashier || isInventory) && <li className="navbar_list_item">
+                    <a href="/viewfinished" className="navbar_list_item_link">Stock Finished</a>
+                </li>}
                 {(isAdmin || isCashier) && <li className="navbar_list_item">
                     <a href="/addbill" className="navbar_list_item_link">Add Bill</a>
+                </li>}
+                {(isAdmin || isCashier) && <li className="navbar_list_item">
+                    <a href="/viewbill" className="navbar_list_item_link">View Bill</a>
+                </li>}
+                {(isAdmin || isCashier || isInventory) && <li className="navbar_list_item">
+                    <a href="/logout" className="navbar_list_item_link">Logout</a>
                 </li>}
             </ul>
         </nav>

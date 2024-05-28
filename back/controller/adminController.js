@@ -43,7 +43,7 @@ const register = (req, res) => {
 };
 
 const getUser = (req, res) => {
-    const sqlGet = "SELECT * FROM user WHERE role != 'ADMIN'"
+    const sqlGet = "SELECT * FROM user"
     db.query(sqlGet, (err, result) => {
         if (err) {
             return res.status(500).json({ status: false, message: err });

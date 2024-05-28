@@ -46,34 +46,51 @@ function ViewBill() {
         if (data.length > 0) {
             return <div className="viewBill_out">
                 <table className="viewBill_table">
-                <thead>
-                    <tr className="viewBill_table_row">
-                        <th className="viewBill_table_heading">Name</th>
-                        <th className="viewBill_table_heading">Quantity</th>
-                        <th className="viewBill_table_heading">Price</th>
-                        <th className="viewBill_table_heading">Unit</th>
-                        <th className="viewBill_table_heading">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map(item => (
+                    <thead>
                         <tr className="viewBill_table_row">
-                            <th className="viewBill_table_data">{item.product_name}</th>
-                            <th className="viewBill_table_data">{item.product_quantity}</th>
-                            <th className="viewBill_table_data">{item.price}</th>
-                            <th className="viewBill_table_data">{item.unit}</th>
-                            <th className="viewBill_table_data">{item.total_price}</th>
+                            <th className="viewBill_table_heading">Name</th>
+                            <th className="viewBill_table_heading">Quantity</th>
+                            <th className="viewBill_table_heading">Expiry</th>
+                            <th className="viewBill_table_heading">Price</th>
+                            <th className="viewBill_table_heading">Unit</th>
+                            <th className="viewBill_table_heading">Total</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            <div className="viewBill_out_data_div">
-                    <span className="viewBill_out_data_row">Sub Total: {bill.sub_total}</span>
-                    <span className="viewBill_out_data_row">Discount: {bill.discount}</span>
-                    <span className="viewBill_out_data_row">Grand Total: {bill.grand_total}</span>
-                    <span className="viewBill_out_data_row">Paid: {bill.paid}</span>
-                    <span className="viewBill_out_data_row">Balance: {bill.balance}</span>
-            </div>
+                    </thead>
+                    <tbody>
+                        {data.map((item, index) => (
+                            <tr key={index} className="viewBill_table_row">
+                                <th className="viewBill_table_data">{item.product_name}</th>
+                                <th className="viewBill_table_data">{item.product_quantity}</th>
+                                <th className="viewBill_table_data">{item.expiry_date.split('T')[0]}</th>
+                                <th className="viewBill_table_data">{Number(item.price).toFixed(2)}</th>
+                                <th className="viewBill_table_data">{item.unit}</th>
+                                <th className="viewBill_table_data">{Number(item.total_price).toFixed(2)}</th>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <div className="viewBill_out_data_div">
+                    <div className="viewBill_out_data">
+                        <span className="viewBill_out_label">Sub Total:</span>
+                        <span className="viewBill_out_value">{Number(bill.sub_total).toFixed(2)} LKR</span>
+                    </div>
+                    <div className="viewBill_out_data">
+                        <span className="viewBill_out_label">Discount:</span>
+                        <span className="viewBill_out_value">{Number(bill.discount).toFixed(2)} LKR</span>
+                    </div>
+                    <div className="viewBill_out_data">
+                        <span className="viewBill_out_label">Grand Total:</span>
+                        <span className="viewBill_out_value">{Number(bill.grand_total).toFixed(2)} LKR</span>
+                    </div>
+                    <div className="viewBill_out_data">
+                        <span className="viewBill_out_label">Paid:</span>
+                        <span className="viewBill_out_value">{Number(bill.paid).toFixed(2)} LKR</span>
+                    </div>
+                    <div className="viewBill_out_data">
+                        <span className="viewBill_out_label">Balance:</span>
+                        <span className="viewBill_out_value">{Number(bill.balance).toFixed(2)} LKR</span>
+                    </div>
+                </div>
             </div>
         } else {
             return null

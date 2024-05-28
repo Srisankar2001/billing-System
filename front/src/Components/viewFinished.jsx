@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios"
 import { useNavigate } from "react-router-dom";
-import "../style/viewproduct.css"
+import "../style/viewfinished.css"
 import Navbar from "./navbar";
 
-function ViewProduct() {
+function FinishedProduct() {
     Axios.defaults.withCredentials = true
     const navigate = useNavigate()
     const [state, setState] = useState({
@@ -48,7 +48,7 @@ function ViewProduct() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await Axios.get("http://localhost:3001/product/all")
+                const response = await Axios.get("http://localhost:3001/product/finished")
                 if (response.data.status) {
                     setData(response.data.data)
                 }
@@ -76,32 +76,32 @@ function ViewProduct() {
         if (filterData.length === 0) {
             return (
                 <tr>
-                    <td colSpan="8" className="viewProduct_message">No items to preview</td>
+                    <td colSpan="8" className="viewFinished_message">No items to preview</td>
                 </tr>
             )
         } else {
             return filterData.map(item => (
-                <tr key={item.id} className="viewProduct_item">
-                    <td className="viewProduct_item_image">
+                <tr key={item.id} className="viewFinished_item">
+                    <td className="viewFinished_item_image">
                         <img src={`http://localhost:3001/images/${item.image}`} alt={item.name} />
                     </td>
-                    <td className="viewProduct_item_data">{item.id}</td>
-                    <td className="viewProduct_item_data">{item.name}</td>
-                    <td className="viewProduct_item_data">{item.quantity}</td>
-                    <td className="viewProduct_item_data">{Number(item.stock) === 0 ? <span className="viewProduct_item_data_marked">{item.stock}</span> : item.stock}</td>
-                    <td className="viewProduct_item_data">{item.self}</td>
-                    <td className="viewProduct_item_data">{Number(item.selling_price).toFixed(2)} LKR</td>
-                    <td className="viewProduct_item_data">{new Date(item.expiry_date) < new Date() ? <span className="viewProduct_item_data_marked">{item.expiry_date.split('T')[0]}</span> : item.expiry_date.split('T')[0]}</td>
+                    <td className="viewFinished_item_data">{item.id}</td>
+                    <td className="viewFinished_item_data">{item.name}</td>
+                    <td className="viewFinished_item_data">{item.quantity}</td>
+                    <td className="viewFinished_item_data">{item.stock}</td>
+                    <td className="viewFinished_item_data">{item.self}</td>
+                    <td className="viewFinished_item_data">{Number(item.selling_price).toFixed(2)} LKR</td>
+                    <td className="viewFinished_item_data">{item.expiry_date.split('T')[0]}</td>
                     {isAuth &&
-                        <td className="viewProduct_item_data">
-                            <div className="viewProduct_item_btn">
-                                <input type="button" value="Update" onClick={() => handleUpdate(item.id)} className="viewProduct_item_btn_update" />
+                        <td className="viewFinished_item_data">
+                            <div className="viewFinished_item_btn">
+                                <input type="button" value="Update" onClick={() => handleUpdate(item.id)} className="viewFinished_item_btn_update" />
                                 {item.active ?
-                                    <input type="button" value="Block" onClick={() => handleBlock(item.id)} className="viewProduct_item_btn_block" />
+                                    <input type="button" value="Block" onClick={() => handleBlock(item.id)} className="viewFinished_item_btn_block" />
                                     :
-                                    <input type="button" value="Unblock" onClick={() => handleUnblock(item.id)} className="viewProduct_item_btn_unblock" />
+                                    <input type="button" value="Unblock" onClick={() => handleUnblock(item.id)} className="viewFinished_item_btn_unblock" />
                                 }
-                                <input type="button" value="Delete" onClick={() => handleDelete(item.id)} className="viewProduct_item_btn_delete" />
+                                <input type="button" value="Delete" onClick={() => handleDelete(item.id)} className="viewFinished_item_btn_delete" />
                             </div>
                         </td>
                     }
@@ -124,7 +124,7 @@ function ViewProduct() {
                 const response = await Axios.post("http://localhost:3001/product/block", postData)
                 if (response.data.status) {
                     alert(response.data.message)
-                    navigate("/viewproduct")
+                    navigate("/viewfinished")
                 } else {
                     alert(response.data.message)
                 }
@@ -144,7 +144,7 @@ function ViewProduct() {
                 const response = await Axios.post("http://localhost:3001/product/unblock", postData)
                 if (response.data.status) {
                     alert(response.data.message)
-                    navigate("/viewproduct")
+                    navigate("/viewfinished")
                 } else {
                     alert(response.data.message)
                 }
@@ -164,7 +164,7 @@ function ViewProduct() {
                 const response = await Axios.delete("http://localhost:3001/product/delete",{ data :postData })
                 if (response.data.status) {
                     alert(response.data.message)
-                    navigate("/viewproduct")
+                    navigate("/viewfinished")
                 } else {
                     alert(response.data.message)
                 }
@@ -176,26 +176,26 @@ function ViewProduct() {
     }
 
     return (
-        <div className="viewProduct_wrapper">
+        <div className="viewFinished_wrapper">
             <Navbar />
-            <div className="viewProduct_container">
-                <div className="viewProduct_heading_div">
-                    <span className="viewProduct_heading">View Products</span>
-                    <input type="text" className="viewProduct_heading_search" name="search" value={search} placeholder="Enter product name" onChange={(e)=>{setSearch(e.target.value)}}/>
+            <div className="viewFinished_container">
+                <div className="viewFinished_heading_div">
+                    <span className="viewFinished_heading">Stock Finished Products</span>
+                    <input type="text" className="viewFinished_heading_search" name="search" value={search} placeholder="Enter product name" onChange={(e)=>{setSearch(e.target.value)}}/>
                 </div>
-                <div className="viewProduct_item_div">
-                    <table className="viewProduct_table">
+                <div className="viewFinished_item_div">
+                    <table className="viewFinished_table">
                         <thead>
-                            <tr className="viewProduct_table_row">
-                                <th className="viewProduct_table_heading">Image</th>
-                                <th className="viewProduct_table_heading">ID</th>
-                                <th className="viewProduct_table_heading">Name</th>
-                                <th className="viewProduct_table_heading">Quantity</th>
-                                <th className="viewProduct_table_heading">Stock</th>
-                                <th className="viewProduct_table_heading">Shelf no</th>
-                                <th className="viewProduct_table_heading">Price</th>
-                                <th className="viewProduct_table_heading">Expiry Date</th>
-                                {isAuth && <th className="viewProduct_table_heading">Action</th>}
+                            <tr className="viewFinished_table_row">
+                                <th className="viewFinished_table_heading">Image</th>
+                                <th className="viewFinished_table_heading">ID</th>
+                                <th className="viewFinished_table_heading">Name</th>
+                                <th className="viewFinished_table_heading">Quantity</th>
+                                <th className="viewFinished_table_heading">Stock</th>
+                                <th className="viewFinished_table_heading">Shelf no</th>
+                                <th className="viewFinished_table_heading">Price</th>
+                                <th className="viewFinished_table_heading">Expiry Date</th>
+                                {isAuth && <th className="viewFinished_table_heading">Action</th>}
                             </tr>
                         </thead>
                         {renderData()}
@@ -206,4 +206,4 @@ function ViewProduct() {
     )
 }
 
-export default ViewProduct
+export default FinishedProduct
