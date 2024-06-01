@@ -12,7 +12,7 @@ function validate(state){
 
     if(name === ""){
         error.name = "Name field is empty"
-    }else if(!/^[A-Za-z]{2,}$/.test(name)){
+    }else if(!/^[A-Za-z]{2,}(?:\s[A-Za-z]{2,})*$/.test(name)){
         error.name = "Invalid name"
     }else{
         error.name = ""

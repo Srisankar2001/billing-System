@@ -84,26 +84,30 @@ function AddBill() {
             const product = data.find(item => item.id == input.id);
 
             if (product) {
-                if (product.stock >= input.quantity) {
-                    if (new Date(product.expiry_date) > new Date()) {
-                        const newItem = {
-                            productId: product.id,
-                            productName: product.name,
-                            productQuantity: product.quantity,
-                            expiryDate: product.expiry_date.split('T')[0],
-                            unit: input.quantity,
-                            price: product.selling_price,
-                            totalPrice: Number(input.quantity) * Number(product.selling_price)
-                        };
-
-                        setCart(prev => [...prev, newItem]);
-                        setTotal(prev => Number(prev) + newItem.totalPrice);
-                        handleClear();
+                if(product.active){
+                    if (product.stock >= input.quantity) {
+                        if (new Date(product.expiry_date) > new Date()) {
+                            const newItem = {
+                                productId: product.id,
+                                productName: product.name,
+                                productQuantity: product.quantity,
+                                expiryDate: product.expiry_date.split('T')[0],
+                                unit: input.quantity,
+                                price: product.selling_price,
+                                totalPrice: Number(input.quantity) * Number(product.selling_price)
+                            };
+    
+                            setCart(prev => [...prev, newItem]);
+                            setTotal(prev => Number(prev) + newItem.totalPrice);
+                            handleClear();
+                        } else {
+                            alert("Product is expired");
+                        }
                     } else {
-                        alert("Product is expired");
+                        alert("Product stock not enough");
                     }
-                } else {
-                    alert("Product stock not enough");
+                }else{
+                    alert("Product is blocked");
                 }
             } else {
                 alert("No product found");

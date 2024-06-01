@@ -40,6 +40,10 @@ const signin = (req, res) => {
         }
     })
 }
+function fun(a,b){
+    return a+b
+}
+
 
 const verify = (req,res) => {
     const token = req.cookies.token
