@@ -174,7 +174,7 @@ function AddProduct() {
                             <option value="Paste" className="addProduct_form_select_value">Paste</option>
                             <option value="Gum Resin" className="addProduct_form_select_value">Gum Resin</option>
                             <option value="Tablets" className="addProduct_form_select_value">Tablets</option>
-                            <option value="Butter" className="addProduct_form_select_value">Butter</option>
+                            <option value="Bottle" className="addProduct_form_select_value">Bottle</option>
                             <option value="Special Drink" className="addProduct_form_select_value">Special Drink</option>
                             <option value="Syrup" className="addProduct_form_select_value">Syrup</option>
                             <option value="Raw Oil" className="addProduct_form_select_value">Raw Oil</option>

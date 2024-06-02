@@ -84,7 +84,7 @@ function AddBill() {
             const product = data.find(item => item.id == input.id);
 
             if (product) {
-                if(product.active){
+                if (product.active) {
                     if (product.stock >= input.quantity) {
                         if (new Date(product.expiry_date) > new Date()) {
                             const newItem = {
@@ -96,7 +96,7 @@ function AddBill() {
                                 price: product.selling_price,
                                 totalPrice: Number(input.quantity) * Number(product.selling_price)
                             };
-    
+
                             setCart(prev => [...prev, newItem]);
                             setTotal(prev => Number(prev) + newItem.totalPrice);
                             handleClear();
@@ -106,7 +106,7 @@ function AddBill() {
                     } else {
                         alert("Product stock not enough");
                     }
-                }else{
+                } else {
                     alert("Product is blocked");
                 }
             } else {

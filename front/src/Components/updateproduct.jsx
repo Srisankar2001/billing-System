@@ -169,7 +169,7 @@ function UpdateProduct() {
                             <option value="Paste" className="updateProduct_form_select_value">Paste</option>
                             <option value="Gum Resin" className="updateProduct_form_select_value">Gum Resin</option>
                             <option value="Tablets" className="updateProduct_form_select_value">Tablets</option>
-                            <option value="Butter" className="updateProduct_form_select_value">Butter</option>
+                            <option value="Bottle" className="updateProduct_form_select_value">Bottle</option>
                             <option value="Special Drink" className="updateProduct_form_select_value">Special Drink</option>
                             <option value="Syrup" className="updateProduct_form_select_value">Syrup</option>
                             <option value="Raw Oil" className="updateProduct_form_select_value">Raw Oil</option>
