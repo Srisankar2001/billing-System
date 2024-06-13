@@ -156,6 +156,11 @@ function AddBill() {
                 return;
             }
 
+            if(discount >= total){
+                alert("Enter a valid discount");
+                return;
+            }
+
             balance = Number(input.amount) - (Number(total) - discount);
 
             if (balance >= 0) {
