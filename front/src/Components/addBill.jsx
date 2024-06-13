@@ -75,7 +75,7 @@ function AddBill() {
     }
 
     const handleAdd = () => {
-        if (input.id !== "" && input.quantity !== "") {
+        if (input.id !== "" && input.quantity !== "" && Number(input.quantity) > 0 && Number(input.id) > 0) {
             if (cart.some(item => item.productId == input.id)) {
                 alert("Product already added");
                 return;
@@ -113,7 +113,7 @@ function AddBill() {
                 alert("No product found");
             }
         } else {
-            alert("Enter Id and Quantity");
+            alert("Enter a valid Id and Quantity");
         }
     };
 

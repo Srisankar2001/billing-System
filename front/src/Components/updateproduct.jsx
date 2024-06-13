@@ -111,7 +111,6 @@ function UpdateProduct() {
         const errors = validate(input)
         setError(errors)
         if (Object.values(errors).every(item => item === "")) {
-            console.log(input)
             const sendData = async () => {
                 try {
                     const postData = {
